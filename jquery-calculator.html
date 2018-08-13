@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JQuery Calculator</title>
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+        <div class="container">
+            <h1 class="text-center">Basic Math Calculator</h1>
+        </div>
+    
+<div class="container2">
+    <div class="row">
+
+        <!--calculator panel-->
+        <div class="col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Calculator</h3>
+            </div>
+
+            <div class="card-body">
+                <button id="button-1" class="btn btn-dark btn-lg custom number" value="1"><h1>1</h1></button>
+                <button id="button-2" class="btn btn-dark btn-lg custom number" value="2"><h1>2</h1></button>
+                <button id="button-3" class="btn btn-dark btn-lg custom number" value="3"><h1>3</h1></button>
+                <button id="button-plus" class="btn btn-danger btn-lg custom operator" value="plus"><h1>+</h1></button>
+                <br>
+                <button id="button-4" class="btn btn-dark btn-lg custom number" value="4"><h1>4</h1></button>
+                <button id="button-5" class="btn btn-dark btn-lg custom number" value="5"><h1>5</h1></button>
+                <button id="button-6" class="btn btn-dark btn-lg custom number" value="6"><h1>6</h1></button>
+                <button id="button-minus" class="btn btn-danger btn-lg custom operator" value="minus"><h1>&minus;</h1></button>
+                <br>
+                <button id="button-7" class="btn btn-dark btn-lg custom number" value="7"><h1>7</h1></button>
+                <button id="button-8" class="btn btn-dark btn-lg custom number" value="8"><h1>8</h1></button>
+                <button id="button-9" class="btn btn-dark btn-lg custom number" value="9"><h1>9</h1></button>
+                <button id="button-times" class="btn btn-danger btn-lg custom operator" value="times"><h1>&times;</h1></button>
+                <br>
+                <button id="button-0" class="btn btn-dark btn-lg custom number" value="0"><h1>0</h1></button>
+                <button id="button-divide" class="btn btn-danger btn-lg custom operator" value="divide"><h1>&divide;</h1></button>
+                <button id="button-power" class="btn btn-danger btn-lg custom operator" value="power"><h1>^</h1></button>
+                <button id="button-equal" class="btn btn-success btn-lg custom equal" value="equal"><h1>=</h1></button>
+                <br>
+                <button id="button-clear" class="btn btn-light btn-lg btn-block clear" value="clear"><h1>clear</h1></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Result</h3>
+            </div>
+            <div class="card-body">
+                <h1 id="first-number"></h1>
+                <h1 id="operator"></h1>
+                <h1 id="second-number"></h1>
+                <hr>
+                <h1 id="result"></h1>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    //make variables global to the runtime of the application
+    var firstNumber;
+    var secondNumber;
+    var operator;
+    var result;
+    var isOperatorChosen;
+    var isCalculated;
+
+
+    // initialize the calculator
+    // when the user presses clear, the calculator will reset
+    function initializeCalculator() {
+        firstNumber = "";
+        secondNumber = "";
+        operator = "";
+        isOperatorChosen = false;
+        isCalculated = false;
+
+        $("#first-number, #second-number, #operator, #result").empty();
+    }
+
+
+    // Add an on click listener to all elements that have the class "number"
+    $(".number").on("click", function(){
+
+        if(isCalculated) return;
+
+        //if operator is chosen, write to the secondNumber, else, the firtNumber
+        if(isOperatorChosen) {
+            secondNumber += this.value;
+            $("#second-number").html(secondNumber);
+        } 
+        else {
+            firstNumber += this.value;
+            $("#first-number").html(firstNumber);
+        }
+    });
+
+    //Add the on click listener to all elements with the class "operator"
+    $(".operator").on("click", function(){
+
+        if(isCalculated) return;
+
+        isOperatorChosen = true;
+        operator = this.value;
+
+        $("#operator").html($(this).text());
+    });
+
+    // add equals onclick function
+    $(".equal").on("click", function(){
+
+        if(isCalculated) return;
+
+        isCalculated = true;
+
+        // Use of parseInt to covert strings to intergers
+        firstNumber = parseInt(firstNumber);
+        secondNumber = parseInt(secondNumber);
+
+        // Based on operator chosen
+        if (operator === "plus") {
+            result = firstNumber + secondNumber;
+        }
+
+        if (operator === "minus") {
+            result = firstNumber - secondNumber;
+        }
+
+        if (operator === "times") {
+            result = firstNumber * secondNumber;
+        }
+
+        if (operator === "divide") {
+            result = firstNumber / secondNumber;
+        }
+
+        if (operator === "power") {
+            result = Math.power(firstNumber, secondNumber);
+        }
+        
+        $("#result").html(result);
+     
+    });
+
+    $(".clear").on("click", function () {
+        initializeCalculator();
+    })
+
+    initializeCalculator();
+
+});
+
+</script>
+ 
+</body>
+</html>
